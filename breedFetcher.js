@@ -1,14 +1,15 @@
 const request = require('request');
-let breed = process.argv.splice(2,1);
 
-request(`https://api.thecatapis.com/v1/breeds/search?q=${breed}`, (error, response, body) => {
-  if (error !== null) {
-    console.log(error);
-    process.exit();
-  } else if (body.length === 2) {
-    console.log(`Cat breed '${breed}' not found.`);
-    process.exit();
-  } else {
-    console.log(JSON.parse(body)[0].description);
-  }
-});
+const fetchBreedDescription = function(breedName, callback) {
+  request(`https://api.thecatapi.com/v1/breeds/search?q=${breedName}`, (error, response, body) => {
+    if (error !== null) {
+      callback(error, null);
+    } else if (body.length === 2) {
+      callback(`Cat breed '${breedName}' not found.`, null);
+    } else {
+      callback(null, JSON.parse(body)[0].description);
+    }
+  });
+};
+
+module.exports = { fetchBreedDescription };
