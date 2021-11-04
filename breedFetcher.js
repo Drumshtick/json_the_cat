@@ -5,7 +5,7 @@ const fetchBreedDescription = function(breedName, callback) {
     if (error !== null) {
       callback(error, null);
     } else if (body.length === 2) {
-      callback(`Cat breed '${breedName}' not found.`, null);
+      callback('Cat breed breed not found.', null);
     } else {
       callback(null, JSON.parse(body)[0].description);
     }
